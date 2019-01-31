@@ -8,17 +8,20 @@ body{
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
 header{
 	width:100%;
 	background:#ffffff;
 	min-height: 50px;
-	line-height:20px;
+	/* line-height:15px; */
 	border-bottom:1px solid #dddddd;
+  display:inline-block; font-size:12px;
 }
 
 header h1 a{
   text-decoration: none;
-  padding-left: 10%;
+  font-size: 20px;
+  padding-left: 5%;
   color: #CD853F;
 }
 
@@ -53,6 +56,7 @@ header h1 a{
   outline:none;
   z-index:10000000000000;
 }
+
 .menu{z-index:1000000; font-weight:bold; font-size:0.8em; width:100%; background:#f1f1f1;  position:absolute; text-align:center; font-size:15px;}
 .menu ul {margin: 0; padding: 0; list-style-type: none; list-style-image: none;}
 .menu li {display: block;   padding:15px 0 15px 0; border-bottom:#dddddd 1px solid;}
@@ -68,7 +72,7 @@ header h1 a{
   margin-top:5px;
   margin:0 auto;
 }
-header{display:inline-block; font-size:12px;}
+
 
 .container{
   width: 90%;
@@ -83,21 +87,14 @@ header{display:inline-block; font-size:12px;}
   background-size: cover;
   color: 	#F5F1F1;
   text-align: center;
-  font-size: 25px;
+  font-size: 15px;
 }
 
 #showcase h1{
   margin-top: 100px;
   font-weight: bold;
-  font-size: 55px;
+  font-size: 40px;
 }
-
-#newsletter{
-  padding: 15px;
-  color: #DEB887;
-  background: #ffffff;
-}
-
 
 #boxes{
   margin-top: 20px;
