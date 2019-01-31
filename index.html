@@ -8,6 +8,19 @@
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Noto+Sans:700'>
   <link rel="stylesheet" media="screen and (min-width: 901px)" href="css/style.css">
   <link rel="stylesheet" media="screen and (max-width: 900px)" href='css/smalldevices.css' />
+  <style>
+  @media only screen and (min-width: 901px) {
+    a.icon{
+      display: none;
+    }
+  }
+
+  @media only screen and (max-width: 900px) {
+    a.big{
+      display: none;
+    }
+  }
+  </style>
 </head>
 
 <body>
@@ -36,22 +49,30 @@
 
   <section id="boxes">
       <div class="container">
-        <h3>Was wir vollbringen</h3>
         <div class="box">
-          <b href="./aboutus.html"><img src="./img/skills.jpg"></b>
+          <a href="./aboutus.html"><img src="./img/skills.jpg"></a>
           <!-- <img src="./img/dario_hefti.jpg" alt="Dario Hefti"> -->
-          <h3><a href="./aboutus.html">Bauschreiner arbeiten</a></h3>
+          <h3><a href="./projects.html">Bauschreiner arbeiten</a></h3>
         </div>
         <div class="box">
           <img src="./img/my_hobby.jpg" alt="My Hobby">
-          <h3>Möbel nach Mass</h3>
+          <h3><a href="./projects.html">Möbel nach Mass</a></h3>
         </div>
         <div class="box">
           <img src="./img/woodworking.jpg" alt="My Cv">
-          <h3>Inspiration</h3>
+          <h3><a href="./projects.html">Inspiration</a></h3>
         </div>
       </div>
     </section>
+
+
+  <section id="standort">
+    <div class="container">
+      <a class="big" href="https://www.google.ch/maps/place/Herisauerstrasse+20,+9200+Gossau/@47.4144442,9.2486852,21z/data=!4m5!3m4!1s0x479ae0c9457e6523:0x3ddaf3553ec43715!8m2!3d47.4144687!4d9.2488542">Unser Standort</a>
+      <a class="icon" href="https://www.google.ch/maps/place/Herisauerstrasse+20,+9200+Gossau/@47.4144442,9.2486852,21z/data=!4m5!3m4!1s0x479ae0c9457e6523:0x3ddaf3553ec43715!8m2!3d47.4144687!4d9.2488542"><img src="./img/location_icon.png"><p>Unser Standort</p></a>
+    </div>
+  </section>
+
 
     <footer>
       <div class="container">

@@ -14,6 +14,7 @@ header{
 	min-height: 50px;
 	line-height:20px;
 	border-bottom:1px solid #dddddd;
+  display:inline-block; font-size:12px;
 }
 
 header h1 a{
@@ -53,7 +54,7 @@ header h1 a{
   outline:none;
   z-index:10000000000000;
 }
-.menu{z-index:1000000; font-weight:bold; font-size:0.8em; width:100%; background:#f1f1f1;  position:absolute; text-align:center; font-size:12px;}
+.menu{z-index:1000000; font-weight:bold; font-size:1.5em; width:100%; background:#f1f1f1;  position:absolute; text-align:center; font-size:15px;}
 .menu ul {margin: 0; padding: 0; list-style-type: none; list-style-image: none;}
 .menu li {display: block;   padding:15px 0 15px 0; border-bottom:#dddddd 1px solid;}
 .menu li:hover{display: block;    background:#ffffff; padding:15px 0 15px 0; border-bottom:#dddddd 1px solid;}
@@ -68,9 +69,8 @@ header h1 a{
   margin-top:5px;
   margin:0 auto;
 }
-header{display:inline-block; font-size:12px;}
 
-.container{
+  .container{
   width: 90%;
   margin: auto;
   overflow: hidden;
@@ -88,29 +88,20 @@ header{display:inline-block; font-size:12px;}
 
 #showcase h1{
   margin-top: 100px;
+  margin-bottom: 100px;
   font-weight: bold;
   font-size: 55px;
 }
 
 #boxes{
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 80px;
+  margin-bottom: 80px;
   color: #DEB887;
 }
 
 #boxes a{
   text-decoration: none;
   color: #DEB887;
-}
-
-#boxes b{
-  //todo
-  box-shadow: inset 0 0 40px 16px;
-  /* box-shadow: 25px 25px 50px 0 white inset, -25px -25px 50px 0 white inset; */
-}
-
-#boxes h3{
-  text-align: center;
 }
 
 #boxes .box{
@@ -122,6 +113,22 @@ header{display:inline-block; font-size:12px;}
 
 #boxes .box img{
   height: 140px;
+}
+
+
+#standort {
+  min-height: 400px;
+  background-image: url("../img/standort.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+  padding-top: 150px;
+  font-size: 25px;
+}
+
+#standort a{
+  text-decoration: none;
+  color: 	#F5F1F1;
 }
 
 #location a{
@@ -147,9 +154,9 @@ header{display:inline-block; font-size:12px;}
  }
 
 footer{
-  /* position: fixed; */
+  position: fixed;
   width: 100%;
-  /* bottom: 0; */
+  bottom: 0;
   height: 30px;
   text-align: center;
   font-style: italic;
