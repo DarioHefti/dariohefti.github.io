@@ -85,7 +85,8 @@ header h1 a{
   background-image: url("../img/showcase.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  color: 	#F5F1F1;
+  /* color: 	#F5F1F1; */
+  color: #fff0db;
   text-align: center;
   font-size: 15px;
 }
