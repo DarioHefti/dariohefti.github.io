@@ -44,8 +44,8 @@ header h1 a{
 .cross{
   background:none;
   position:absolute;
-  top:0px;
-  right:30px;
+  top: 5px;
+  right: 10px;
   padding:7px 15px 0px 15px;
   color:#999;
   border:0;
