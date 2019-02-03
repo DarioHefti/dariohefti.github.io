@@ -86,8 +86,12 @@ header h1 a{
   background-repeat: no-repeat;
   background-size: cover;
   /* color: 	#F5F1F1; */
-  color: #fff0db;
+  color: #c17000;
   text-align: center;
+}
+
+#showcase p{
+  margin-top: 80px;
   font-size: 15px;
 }
 
