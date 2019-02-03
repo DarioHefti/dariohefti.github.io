@@ -28,8 +28,8 @@ header h1 a{
 .hamburger {
     background: none;
     position: absolute;
-    top: 0;
-    right: 30px;
+    top: 5px;
+    right: 10px;
     line-height: 45px;
     padding: 5px 15px 30px 15px;
     color: #999;
