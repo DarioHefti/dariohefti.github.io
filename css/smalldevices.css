@@ -167,9 +167,9 @@ header h1 a{
  }
 
 footer{
-  /* position: fixed; */
+  position: fixed;
   width: 100%;
-  /* bottom: 0; */
+  bottom: 0;
   height: 30px;
   text-align: center;
   font-style: italic;
