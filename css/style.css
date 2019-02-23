@@ -157,9 +157,24 @@ video{
   color: 	#F5F1F1;
 }
 
+#location{
+  height: 300px;
+  width: 100%;
+  overflow: hidden;
+}
+
 #location a{
+  position: absolute;
+  padding-top: 20px;
+  padding-left: 0px;
   color: darkgrey;
-  font-size: 10px;
+  font-size: 12px;
+  z-index: 1;
+}
+
+.projectImg{
+  z-index: -1;
+  width: 10px;
 }
 
 #about{
@@ -178,6 +193,27 @@ video{
  #about h3{
    color: #DEB887;
  }
+
+#contact{
+  border-top:1px solid #dddddd;
+  min-height: 250px;
+  text-align: center;
+}
+
+#contact ul{
+  padding: 50px;
+}
+
+#contact ul li{
+  display: inline;
+  padding: 20px;
+}
+
+#contact ul li a{
+  text-decoration: none;
+  color: black;
+}
+
 
 footer{
   position: fixed;
@@ -200,7 +236,7 @@ footer ul{
 
 footer ul li{
   display: inline;
-  padding: 10px;
+  padding: 10%;
 }
 
 footer ul a{
