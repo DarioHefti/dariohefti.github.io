@@ -158,15 +158,12 @@ video{
 }
 
 #location{
-  height: 300px;
+  height: 400px;
   width: 100%;
   overflow: hidden;
 }
 
 #location a{
-  position: absolute;
-  padding-top: 20px;
-  padding-left: 0px;
   color: darkgrey;
   font-size: 12px;
   z-index: 1;
@@ -174,7 +171,6 @@ video{
 
 .projectImg{
   z-index: -1;
-  width: 10px;
 }
 
 #about{
