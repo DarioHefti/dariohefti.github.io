@@ -243,7 +243,7 @@ footer ul{
 }
 
 footer ul li{
-  display: inline;
+  /* display: inline; */
   padding: 10px;
 }
 
