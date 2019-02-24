@@ -77,6 +77,13 @@ header h1 a{
   overflow: hidden;
 }
 
+.w3-input{
+  padding:8px;
+  display:block;
+  border:1px solid #ccc;
+  width: 60%;
+}
+
 #showcase{
   color: #fff0db;
 }
