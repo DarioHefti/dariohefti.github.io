@@ -88,6 +88,20 @@ header h1 a{
   color: #fff0db;
 }
 
+#mailId{
+  position: fixed;
+  z-index: 99;
+  top:10px;
+  left:5px;
+}
+
+#teldId{
+  position: fixed;
+  z-index: 99;
+  top:60px;
+  left:5px;
+}
+
 .videocontainer{
   width: 100%;
   height: 700px;
