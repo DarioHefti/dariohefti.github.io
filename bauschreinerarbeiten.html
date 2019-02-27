@@ -7,6 +7,25 @@
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Noto+Sans:700'>
     <link rel="stylesheet" media="screen and (min-width: 901px)" href="css/style.css">
     <link rel="stylesheet" media="screen and (max-width: 900px)" href='css/smalldevices.css' />
+    <style>
+    @media only screen and (min-width: 901px) {
+      footer{
+        display: none;
+      }
+    }
+
+    @media only screen and (max-width: 900px) {
+      #teldId{
+        display: none;
+      }
+      #locationId{
+        display: none;
+      }
+      #mailId{
+        display: none;
+      }
+    }
+    </style>
   </head>
 
 
@@ -27,6 +46,10 @@
         <a href="aboutus.html"><li>Über uns</li></a>
       </ul>
     </div>
+
+    <a id="mailId" href="mailto:dario.hefti@bluewin.ch"><img src="./img/mail.jpg" style="width:40px;"></a>
+    <a id="teldId" href="tel:079 790 79 79"><img src="./img/phone.png" style="width:40px;"></a>
+    <a id="locationId" href="https://www.google.ch/maps/place/Herisauerstrasse+20,+9200+Gossau/@47.4144442,9.2486852,21z/data=!4m5!3m4!1s0x479ae0c9457e6523:0x3ddaf3553ec43715!8m2!3d47.4144687!4d9.24885429"><img src="./img/location.png" style="width:40px;"></a>
 
     <section id="location">
       <div class="container">
