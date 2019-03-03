@@ -236,6 +236,19 @@ video{
   color: black;
 }
 
+#people .box{
+  float: left;
+  width: 45%;
+  height: 400px;
+  text-align: center;
+  padding: 20px;
+  overflow: hidden;
+}
+
+#beschreibung{
+  margin-top: 10px;
+}
+
 
 footer{
   position: fixed;

@@ -250,6 +250,17 @@ video{
    color: #DEB887;
  }
 
+ #people .box{
+   float: left;
+   width: 100%;
+   text-align: center;
+   overflow: hidden;
+ }
+
+ #beschreibung{
+   margin-top: 10px;
+ }
+
 footer{
   position: fixed;
   width: 100%;
