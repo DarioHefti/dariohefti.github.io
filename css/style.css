@@ -236,6 +236,10 @@ video{
   color: black;
 }
 
+#input{
+  margin-left:10%;
+}
+
 #people .box{
   float: left;
   width: 45%;
