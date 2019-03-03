@@ -98,14 +98,14 @@ header h1 a{
 #teldId{
   position: fixed;
   z-index: 99;
-  top:110px;
+  top:100px;
   left:5px;
 }
 
 #locationId{
   position: fixed;
   z-index: 99;
-  top:160px;
+  top:150px;
   left:5px;
 }
 
@@ -158,7 +158,7 @@ video{
 #boxes .box{
   float: left;
   width: 45%;
-  height: 250px;
+  height: 400px;
   text-align: center;
   padding: 20px;
   overflow: hidden;
