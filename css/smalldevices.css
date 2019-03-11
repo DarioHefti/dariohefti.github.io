@@ -265,7 +265,6 @@ footer{
   position: fixed;
   width: 100%;
   bottom: 0;
-  height: 30px;
   text-align: center;
   font-style: italic;
   background: #ffffff;
@@ -282,7 +281,7 @@ footer ul{
 
 footer ul li{
   display: inline;
-  padding: 10px;
+  padding: 28px;
 }
 
 footer ul a{
