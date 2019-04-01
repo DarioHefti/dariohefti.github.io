@@ -1,5 +1,8 @@
 body{
-  font-family: 'Noto Sans', sans-serif;
+  /* font-family: 'Noto Sans', sans-serif; */
+  font-family: 'Arial';
+  font-style: normal;
+  font-weight: 400;
 	margin:0;
   padding: 0;
 	width:100%;
@@ -212,8 +215,22 @@ video{
    margin: 0;
  }
 
+ #about li{
+   margin-top: 25px;
+ }
+
  #about h3{
-   color: #DEB887;
+   color: black;
+   /* color: #DEB887; */
+   font-size: 25px;
+   margin-bottom: 5px;
+   font-weight: 300;
+ }
+
+ #about h2{
+   font-size: 15px;
+   /* color: #DEB887; */
+   font-weight: 300;
  }
 
 #contact{
