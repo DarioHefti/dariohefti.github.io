@@ -11,6 +11,7 @@ body{
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
 header{
 	width:100%;
 	background:#ffffff;
@@ -219,6 +220,14 @@ video{
    margin-top: 25px;
  }
 
+ #about h2{
+   font-size: 18px;
+   color: #DEB887;
+   font-weight: 350;
+   margin-bottom: 0;
+   margin-top: 0;
+ }
+
  #about h3{
    color: black;
    /* color: #DEB887; */
@@ -227,10 +236,9 @@ video{
    font-weight: 300;
  }
 
- #about h2{
-   font-size: 15px;
-   /* color: #DEB887; */
-   font-weight: 300;
+ #about h4{
+    margin-bottom: 0;
+    margin-top: 5px;
  }
 
 #contact{
@@ -268,6 +276,12 @@ video{
 
 #beschreibung{
   margin-top: 10px;
+}
+
+.highlight{
+  font-style: bold;
+  font-size: 30px;
+  font-weight: 700;
 }
 
 
