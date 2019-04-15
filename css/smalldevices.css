@@ -26,7 +26,7 @@ header h1 a{
   text-decoration: none;
   font-size: 20px;
   padding-left: 5%;
-  color: #CD853F;
+  color: #6C3226;
 }
 
 .hamburger {
@@ -99,7 +99,7 @@ header h1 a{
  }
 
  .highlight_H{
-   color: color: #6C3226;
+   color: #6C3226;
  }
 
 #showcase p{
@@ -169,12 +169,12 @@ video{
 #boxes{
   /* margin-top: 20px; */
   padding-bottom: 0px;
-  color: #DEB887;
+  color: #6C3226;
 }
 
 #boxes a{
   text-decoration: none;
-  color: #DEB887;
+  color: #6C3226;
 }
 
 #boxes b{
@@ -202,7 +202,7 @@ video{
 
 #standort a{
   text-decoration: none;
-  color: 	darkgrey;
+  color: 	#6C3226;
 }
 
 #standort a.icon img{
@@ -294,7 +294,7 @@ footer{
   text-align: center;
   font-style: italic;
   background: #ffffff;
-  color: #CD853F;
+  color: #6C3226;
   text-decoration: none;
 }
 
