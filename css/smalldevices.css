@@ -83,13 +83,12 @@ header h1 a{
   margin: auto;
   overflow: hidden;
 }
-
-  /* #showcase{
+/* 
+  #showcase{
   min-height: 400px;
   background-image: url("../img/showcase.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  color: 	#F5F1F1;
   } */
 
  #showcase h1{
@@ -108,7 +107,7 @@ header h1 a{
 }
 
 #showcase{
-  color: #fff0db;
+  color: #ffffff;
 }
 
 #mailId{
@@ -252,6 +251,10 @@ video{
  #about ul{
    padding: 0;
    margin: 0;
+ }
+
+ #about li{
+   margin-top: 25px;
  }
 
  #about h2{

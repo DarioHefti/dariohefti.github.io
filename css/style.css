@@ -279,9 +279,9 @@ video{
 #people .box{
   float: left;
   width: 30%;
-  height: 400px;
+  height: 200px;
   text-align: center;
-  padding: 20px;
+  padding: 10px;
   overflow: hidden;
 }
 
