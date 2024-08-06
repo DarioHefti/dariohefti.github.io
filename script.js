@@ -40,7 +40,7 @@ document.getElementById('convertButton').addEventListener('click', function () {
                 if (!Array.isArray(json)) {
                     throw new Error('Invalid JSON structure: Root element is not an array.');
                 }
-                increaseProgress(0);
+                updateProgress(0);
                 const gpxFiles = await jsonToGpxFiles(json);
                 zipAndDownload(gpxFiles);
             } catch (error) {
@@ -57,6 +57,7 @@ async function jsonToGpxFiles(jsonArray) {
     var error_once = true;
     const total = Object.keys(jsonArray).length * 2; //50% of the progress
     const apiKey = document.getElementById('apiKey').value;
+    let filePerDay = document.getElementById('filePerDay').checked;
 
     const gpxFiles = {};
     const searchData = JSON.parse(JSON.stringify(jsonArray));
@@ -80,11 +81,15 @@ async function jsonToGpxFiles(jsonArray) {
 
         let currentString = gpxFiles[currentDate];
         if (!currentString) {
-            currentString = `<?xml version="1.0" encoding="UTF-8"?>\n
-            <gpx version="1.1" creator="JsonToGpxConverter">\n
-            <metadata>\n
-            <name>${currentDate}</name>\n
-            </metadata>\n`;
+            if (filePerDay) {
+                currentString = `<?xml version="1.0" encoding="UTF-8"?>\n
+                <gpx version="1.1" creator="JsonToGpxConverter">\n
+                <metadata>\n
+                <name>${currentDate}</name>\n
+                </metadata>\n`;
+            } else {
+                currentString = '';
+            }
         }
 
         if (point.visit) {
@@ -146,29 +151,49 @@ async function jsonToGpxFiles(jsonArray) {
 }
 
 async function zipAndDownload(gpxFiles) {
+    let filePerDay = document.getElementById('filePerDay').checked;
     const zip = new JSZip();
     const total = Object.keys(gpxFiles).length * 2;
     let counter = 0;
+    let outString = '';
+    if (!filePerDay) {
+        outString += `<?xml version="1.0" encoding="UTF-8"?>\n
+                <gpx version="1.1" creator="JsonToGpxConverter">\n
+                <metadata>\n
+                <name>Google Timeline</name>\n
+                </metadata>\n`;
+    }
+
     for (let date in gpxFiles) {
         counter += 1;
         let tot = 0.5 + (counter / total);
         if (counter % Math.ceil(total / 100) === 0 && tot < 0.9) { // Update progress every 1% completed
             await updateProgress(tot);
         }
-        zip.file(`${date}.gpx`, gpxFiles[date]);
+        if (filePerDay) {
+            zip.file(`${date}.gpx`, gpxFiles[date]);
+        } else {
+            outString += gpxFiles[date];
+        }
+    }
+
+    if (!filePerDay) {
+        zip.file('generated.gpx', outString);
     }
 
     zip.generateAsync({ type: 'blob' }).then(async function (content) {
         await updateProgress(1);
-        const url = URL.createObjectURL(content);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'gpx_files.zip';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        await updateProgress(0);
-        resetFileInput();
+        setTimeout(e => {
+            const url = URL.createObjectURL(content);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'gpx_files.zip';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            updateProgress(0);
+            resetFileInput();
+        }, 1000);
     });
 }
 
@@ -187,11 +212,10 @@ function increaseProgress(percentage) {
 function updateProgress(percentage) {
     return new Promise((resolve) => {
         increaseProgress(percentage);
-        setTimeout(resolve, 0);
         if (percentage === 1) {
             showFireworks();
-            setTimeout(resolve, 0);
         }
+        setTimeout(resolve, 0);
     });
 }
 
