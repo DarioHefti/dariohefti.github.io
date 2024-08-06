@@ -54,6 +54,7 @@ document.getElementById('convertButton').addEventListener('click', function () {
 });
 
 async function jsonToGpxFiles(jsonArray) {
+    var error_once = true;
     const total = Object.keys(jsonArray).length * 2; //50% of the progress
     const apiKey = document.getElementById('apiKey').value;
 
@@ -93,15 +94,20 @@ async function jsonToGpxFiles(jsonArray) {
             let desc = 'visit ' + placeId;
 
             if (apiKey) {
-                const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,address_components&key=${apiKey}`;
+                const url = 'https://corsproxy.io/?' + 'https://maps.googleapis.com/maps/api/place/details/json?place_id=' + placeId + '&fields=name,address_components&key=' + apiKey;
                 try {
                     const response = await axios.get(url);
-                    name = response.data.result.name;
-                    desc = response.data.result.address_components[0].long_name;
-                } catch (error) {
-                    if (error.response) {
-                        document.getElementById("googleErrorMsg").innerHTML = error.response.data.toString();
+                    if (response.data.status === "REQUEST_DENIED") {
+                        if (error_once) {
+                            window.alert('The provided Api Key is wrong!');
+                            error_once = false;
+                        }
+                    } else {
+                        name = response.data.result.name;
+                        desc = response.data.result.address_components[0].long_name;
                     }
+                } catch (error) {
+                    window.alert('Something went wrong with the request to Google: ' + error.toString());
                 }
             }
 
