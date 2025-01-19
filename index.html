@@ -52,9 +52,8 @@
             height: 32px;
         }
 
-        .showAll {
-            height: 32px;
-            min-width: 80px;
+        .head:hover {
+            cursor: pointer;
         }
 
         ul {
@@ -82,13 +81,6 @@
 
         .type {
             font-style: italic;
-        }
-
-        @media screen and (max-width: 768px) {
-            .showAll {
-                margin-left: auto;
-                margin-right: 0;
-            }
         }
     </style>
 </head>
@@ -211,18 +203,10 @@
                 stationName.textContent = station.name;
                 headDiv.appendChild(stationName);
 
-                const actionButton = document.createElement('button');
-                actionButton.className = 'showAll';
-                actionButton.textContent = station.conLoaded
-                    ? station.showAll
-                        ? 'Show Less'
-                        : 'Show All'
-                    : 'Load Data';
-                actionButton.onclick = () =>
+                headDiv.onclick = () =>
                     station.conLoaded
                         ? toggleShowAll(station)
                         : loadStationConnections(station);
-                headDiv.appendChild(actionButton);
 
                 stationDiv.appendChild(headDiv);
 
