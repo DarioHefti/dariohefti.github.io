@@ -12,6 +12,11 @@
             padding: 0;
         }
 
+        h2 {
+            font-size: larger;
+            word-break: break-word;
+        }
+
         .floatingButton {
             position: fixed;
             bottom: 20px;
@@ -49,6 +54,7 @@
 
         .showAll {
             height: 32px;
+            min-width: 80px;
         }
 
         ul {
@@ -76,6 +82,13 @@
 
         .type {
             font-style: italic;
+        }
+
+        @media screen and (max-width: 768px) {
+            .showAll {
+                margin-left: auto;
+                margin-right: 0;
+            }
         }
     </style>
 </head>
@@ -115,7 +128,7 @@
         }
 
         async function fetchStations(location) {
-            const url = `https://search.ch/timetable/api/completion.json?latlon=${location.lat},${location.lon}&accuracy=500`;
+            const url = `https://search.ch/timetable/api/completion.json?latlon=${location.lat},${location.lon}&accuracy=300`;
 
             try {
                 const response = await fetch(url);
