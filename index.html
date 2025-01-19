@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .floatingButton {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background-color: #007bff;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+        }
+
+        .floatingButton:hover {
+            background-color: #0056b3;
+        }
+
+        .station {
+            border: 1px solid #ccc;
+            margin: 16px;
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .head {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 8px;
+            height: 32px;
+        }
+
+        .showAll {
+            height: 32px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .connection {
+            display: flex;
+            align-items: center;
+        }
+
+        .destination {
+            font-weight: 600;
+            width: 150px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .time {
+            margin-left: 8px;
+            margin-right: 8px;
+        }
+
+        .type {
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="floatingButton" onclick="getStations()">Get Stations</button>
+    <div id="stationsContainer"></div>
+
+    <script>
+        const StationType = {
+            Train: 'Train',
+            Bus: 'Bus',
+            Tram: 'Tram',
+            Undefined: 'Undefined',
+        };
+
+        let stations = []; // Store all stations globally
+
+        function getStations() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const location = {
+                            lat: position.coords.latitude,
+                            lon: position.coords.longitude,
+                        };
+                        fetchStations(location);
+                    },
+                    (error) => {
+                        console.error('Error getting location:', error);
+                        alert('Failed to get location.');
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by your browser.');
+            }
+        }
+
+        async function fetchStations(location) {
+            const url = `https://search.ch/timetable/api/completion.json?latlon=${location.lat},${location.lon}&accuracy=500`;
+
+            try {
+                const response = await fetch(url);
+                const stationDtos = await response.json();
+
+                if (stationDtos.length > 0) {
+                    stations = stationDtos.map((dto) => ({
+                        name: dto.label,
+                        type: getStationType(dto.iconclass),
+                        connections: [],
+                        showAll: false,
+                        conLoaded: false,
+                    }));
+
+                    // Preload the first station's timetable
+                    await loadStationConnections(stations[0]);
+
+                    displayStations();
+                } else {
+                    alert('No stations found nearby.');
+                }
+            } catch (error) {
+                console.error('Error fetching stations:', error);
+                alert('Failed to fetch station data.');
+            }
+        }
+
+
+        async function loadStationConnections(station) {
+            const url = `https://search.ch/timetable/api/stationboard.json?stop=${station.name}`;
+
+            try {
+                const response = await fetch(url);
+                const stationBoard = await response.json();
+
+                station.connections = stationBoard.connections.map((conn, index) => ({
+                    to: conn.terminal.name,
+                    type: conn.type_name,
+                    time: new Date(conn.time),
+                    show: index < 3,
+                }));
+
+                station.conLoaded = true;
+                displayStations();
+            } catch (error) {
+                console.error('Error fetching station connections:', error);
+                alert('Failed to load connections.');
+            }
+        }
+
+        function getStationType(type) {
+            if (type === 'sl-icon-type-strain') return StationType.Train;
+            if (type === 'sl-icon-type-bus') return StationType.Bus;
+            if (type === 'sl-icon-type-tram') return StationType.Tram;
+            return StationType.Undefined;
+        }
+
+        function displayStations() {
+            const container = document.getElementById('stationsContainer');
+            container.innerHTML = '';
+
+            stations.forEach((station) => {
+                const stationDiv = document.createElement('div');
+                stationDiv.className = 'station';
+
+                const headDiv = document.createElement('div');
+                headDiv.className = 'head';
+
+                const stationIcon = document.createElement('div');
+                if (station.type === StationType.Train) {
+                    stationIcon.textContent = '🚆';
+                } else if (station.type === StationType.Bus) {
+                    stationIcon.textContent = '🚌';
+                } else if (station.type === StationType.Tram) {
+                    stationIcon.textContent = '🚋';
+                }
+                headDiv.appendChild(stationIcon);
+
+                const stationName = document.createElement('h2');
+                stationName.textContent = station.name;
+                headDiv.appendChild(stationName);
+
+                const actionButton = document.createElement('button');
+                actionButton.className = 'showAll';
+                actionButton.textContent = station.conLoaded
+                    ? station.showAll
+                        ? 'Show Less'
+                        : 'Show All'
+                    : 'Load Data';
+                actionButton.onclick = () =>
+                    station.conLoaded
+                        ? toggleShowAll(station)
+                        : loadStationConnections(station);
+                headDiv.appendChild(actionButton);
+
+                stationDiv.appendChild(headDiv);
+
+                const connectionsList = document.createElement('ul');
+                station.connections.forEach((conn) => {
+                    if (conn.show) {
+                        const listItem = document.createElement('li');
+                        listItem.className = 'connection';
+                        listItem.innerHTML = `
+                <span class="destination">${conn.to}:</span>
+                <span class="time">${conn.time.toLocaleTimeString([], {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                        })}</span>
+                <span class="type">- (${conn.type})</span>
+              `;
+                        connectionsList.appendChild(listItem);
+                    }
+                });
+
+                stationDiv.appendChild(connectionsList);
+                container.appendChild(stationDiv);
+            });
+        }
+
+        function toggleShowAll(station) {
+            station.showAll = !station.showAll;
+            station.connections.forEach((conn, index) => {
+                conn.show = station.showAll || index < 3;
+            });
+            displayStations();
+        }
+    </script>
+</body>
+
+</html>
