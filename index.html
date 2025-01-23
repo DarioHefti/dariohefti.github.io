@@ -44,6 +44,13 @@
             border-radius: 8px;
         }
 
+        .station-main {
+            border: 1px solid #000000;
+            margin: 16px;
+            padding: 16px;
+            border-radius: 8px;
+        }
+
         .head {
             display: flex;
             gap: 8px;
@@ -94,6 +101,7 @@
             Train: 'Train',
             Bus: 'Bus',
             Tram: 'Tram',
+            Ship: 'Ship',
             Undefined: 'Undefined',
         };
 
@@ -172,9 +180,10 @@
         }
 
         function getStationType(type) {
-            if (type === 'sl-icon-type-strain') return StationType.Train;
+            if (type === 'sl-icon-type-strain' || type === 'sl-icon-type-train') return StationType.Train;
             if (type === 'sl-icon-type-bus') return StationType.Bus;
             if (type === 'sl-icon-type-tram') return StationType.Tram;
+            if (type === 'sl-icon-type-ship') return StationType.Ship;
             return StationType.Undefined;
         }
 
@@ -192,10 +201,13 @@
                 const stationIcon = document.createElement('div');
                 if (station.type === StationType.Train) {
                     stationIcon.textContent = '🚆';
+                    stationDiv.className = 'station-main';
                 } else if (station.type === StationType.Bus) {
                     stationIcon.textContent = '🚌';
                 } else if (station.type === StationType.Tram) {
                     stationIcon.textContent = '🚋';
+                } else if (station.type === StationType.Ship) {
+                    stationIcon.textContent = '🚢';
                 }
                 headDiv.appendChild(stationIcon);
 
