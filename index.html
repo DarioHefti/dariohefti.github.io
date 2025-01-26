@@ -83,11 +83,15 @@
 
         .time {
             margin-left: 8px;
-            margin-right: 8px;
         }
 
         .type {
+            margin-left: 8px;
             font-style: italic;
+        }
+
+        .track {
+            margin-left: 8px;
         }
     </style>
 </head>
@@ -158,7 +162,7 @@
 
 
         async function loadStationConnections(station) {
-            const url = `https://search.ch/timetable/api/stationboard.json?stop=${station.name}`;
+            const url = `https://search.ch/timetable/api/stationboard.json?stop=${station.name}&show_tracks=1`;
 
             try {
                 const response = await fetch(url);
@@ -168,6 +172,7 @@
                     to: conn.terminal.name,
                     type: conn.type_name,
                     time: new Date(conn.time),
+                    track: conn.track,
                     show: index < 3,
                 }));
 
@@ -227,14 +232,27 @@
                     if (conn.show) {
                         const listItem = document.createElement('li');
                         listItem.className = 'connection';
-                        listItem.innerHTML = `
+                        if (conn.track) {
+                            listItem.innerHTML = `
                 <span class="destination">${conn.to}:</span>
                 <span class="time">${conn.time.toLocaleTimeString([], {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                        })}</span>
+                                hour: '2-digit',
+                                minute: '2-digit',
+                            })}</span>
+                <span class="type">- (${conn.type})</span>
+                <span class="track">Gleis - ${conn.track}</span>
+              `;
+                        } else {
+                            listItem.innerHTML = `
+                <span class="destination">${conn.to}:</span>
+                <span class="time">${conn.time.toLocaleTimeString([], {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                            })}</span>
                 <span class="type">- (${conn.type})</span>
               `;
+                        }
+
                         connectionsList.appendChild(listItem);
                     }
                 });
