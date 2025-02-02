@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Station Finder</title>
+    <title>Time Table Helper</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,20 +17,42 @@
             word-break: break-word;
         }
 
-        .floatingButton {
+        .floatingBottom {
             position: fixed;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 1000;
+            display: flex;
+            gap: 8px;
+        }
+
+        .inputfield {
+            max-width: 100px;
+            border-radius: 8px;
+            border: 2px solid lightgray;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            max-height: 32px;
+        }
+
+        .options {
+            max-height: 32px;
+            border-radius: 8px;
+            border: 2px solid lightgray;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .searchButton {
             background-color: #007bff;
             color: white;
-            padding: 15px 20px;
+            padding: 8px;
             border: none;
             border-radius: 10px;
             cursor: pointer;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             font-size: 16px;
+            max-height: 32px;
+            width: 128px;
         }
 
         .floatingButton:hover {
@@ -42,13 +64,15 @@
             margin: 16px;
             padding: 16px;
             border-radius: 8px;
+            box-shadow: 10px 5px 5px lightgray
         }
 
         .station-main {
-            border: 1px solid #000000;
+            border: 3px solid lightgray;
             margin: 16px;
             padding: 16px;
             border-radius: 8px;
+            box-shadow: 10px 5px 5px lightgray
         }
 
         .head {
@@ -71,6 +95,7 @@
         .connection {
             display: flex;
             align-items: center;
+            font-size: smaller;
         }
 
         .destination {
@@ -93,12 +118,92 @@
         .track {
             margin-left: 8px;
         }
+
+        .footer {
+            min-height: 60px;
+        }
+
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 20px 0;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        thead {
+            background-color: #f8f9fa;
+        }
+
+        th {
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        td {
+            padding: 12px 16px;
+            color: #4b5563;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .routesTable {
+            display: none;
+            margin: 16px;
+        }
     </style>
 </head>
 
 <body>
-    <button class="floatingButton" onclick="getStations()">Get Stations</button>
+    <div class="floatingBottom">
+        <input class="inputfield" type="text" id="to" placeholder="Where are you going?">
+        <select class="options" id="stationType">
+            <option value="Train">Train</option>
+            <option value="Bus">Bus</option>
+            <option value="Tram">Tram</option>
+            <option value="Ship">Ship</option>
+        </select>
+        <button class="searchButton" onclick="search()">Search</button>
+    </div>
+
     <div id="stationsContainer"></div>
+
+    <div class="routesTable" id="routesTable">
+        <table>
+            <thead>
+                <tr>
+                    <th>From</th>
+                    <th>Departure</th>
+                    <th>Arrival</th>
+                    <th>Duration</th>
+                </tr>
+            </thead>
+            <tbody id="travel-data">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer"></div>
 
     <script>
         const StationType = {
@@ -110,8 +215,9 @@
         };
 
         let stations = []; // Store all stations globally
+        let allConnections = [];
 
-        function getStations() {
+        function search() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
@@ -119,7 +225,21 @@
                             lat: position.coords.latitude,
                             lon: position.coords.longitude,
                         };
-                        fetchStations(location);
+                        let inputValue = document.getElementById("to").value;
+                        if (inputValue) {
+                            let table = document.getElementById('routesTable');
+                            table.style.display = "block";
+                            let stations = document.getElementById('stationsContainer');
+                            stations.style.display = "none";
+
+                            findRoutes(location, inputValue);
+                        } else {
+                            let table = document.getElementById('routesTable');
+                            table.style.display = "none";
+                            let stations = document.getElementById('stationsContainer');
+                            stations.style.display = "block";
+                            fetchStations(location);
+                        }
                     },
                     (error) => {
                         console.error('Error getting location:', error);
@@ -268,6 +388,92 @@
                 conn.show = station.showAll || index < 3;
             });
             displayStations();
+        }
+
+
+        async function findRoutes(location, inputValue) {
+            const url = `https://search.ch/timetable/api/completion.json?latlon=${location.lat},${location.lon}&accuracy=300`;
+
+            try {
+                const response = await fetch(url);
+                const stationDtos = await response.json();
+
+                if (stationDtos.length > 0) {
+                    stations = stationDtos.map((dto) => ({
+                        name: dto.label,
+                        type: getStationType(dto.iconclass),
+                        connections: [],
+                        showAll: false,
+                        conLoaded: false,
+                    }));
+
+                    // Preload the first station's timetable
+                    await loadRoutes(stations, inputValue);
+                } else {
+                    alert('No stations found nearby.');
+                }
+            } catch (error) {
+                console.error('Error fetching stations:', error);
+                alert('Failed to fetch station data.');
+            }
+        }
+
+        async function loadRoutes(stations, inputValue) {
+            let selectedType = document.getElementById("stationType").value;
+            for (let index = 0; index < stations.length; index++) {
+                const element = stations[index];
+                if (element.type === selectedType) {
+                    console.log(element);
+                    await showRoutes(element.name, inputValue);
+                }
+            }
+            sortAndDisplayData();
+        }
+
+        async function showRoutes(from, to) {
+            console.log('from:' + from + " to:" + to);
+            const url = `https://search.ch/timetable/api/route.json?from=${from}&to=${to}`;
+            const response = await fetch(url);
+            const routes = await response.json();
+            allConnections = allConnections.concat(routes.connections);
+        }
+
+        function sortAndDisplayData() {
+            allConnections.sort((a, b) => {
+                const dateA = new Date(a.departure);
+                const dateB = new Date(b.departure);
+                if (dateA - dateB !== 0) {
+                    return dateA - dateB;
+                }
+                return a.duration - b.duration;
+            });
+            displayData();
+        }
+
+        function displayData() {
+            const tbody = document.getElementById("travel-data");
+            tbody.innerHTML = "";
+            allConnections.forEach(connection => {
+                const row = document.createElement("tr");
+                const departureTime = new Date(connection.departure).toLocaleTimeString('default', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                const arrivalTime = new Date(connection.arrival).toLocaleTimeString('default', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+
+                row.innerHTML = `
+                    <td>${connection.from}</td>
+                    <td>${departureTime}</td>
+                    <td>${arrivalTime}</td>
+                    <td>${Math.round(connection.duration / 60)}</td>
+                `;
+                tbody.appendChild(row);
+            });
         }
     </script>
 </body>
